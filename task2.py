@@ -1,31 +1,35 @@
 import random
-
+import os
 def main () :
     def register(name) :
-        fp = open ('/home/student/python_specialKurs/testing.txt','r')     
-        l = open('/home/student/python_specialKurs/testing.txt').readlines()
-        fp.close
-        if name in l :                
-            print("Такое имя уже есть")
-            name1 = name + random.choice()
-            name2 = name + random.choice()
-            name3 = name + random.choice()
-            name4 = name + random.choice()
-            print("Возможные варианты регистрации :",name1,'\n',name2,'\n',
+        namefile = input("Введите имя файла")
+        fp = open ('/home/student/python_specialKurs/'+namefile,'r+')        
+        for line in fp :                                
+            if (name==line.rstrip()) :
+                print("Такое имя уже есть")
+                name1 = name + str(random.randint(0,100000))
+                name2 = name + str(random.randint(0,100000))
+                name3 = name + str(random.randint(0,100000))
+                name4 = name + str(random.randint(0,100000))
+                print("Возможные варианты регистрации :",name1,'\n',name2,'\n',
                       name3,'\n',name4)            
-            try :
-                nameuse = str(input("Введите одно из этих похожих имен, или новое имя"))
-            except TypeError:
-                print("неккоректный ввод")          
-            fp = open ('/home/student/python_specialKurs/testing.txt','a')
-            fp.write(nameuse + '\n')
-            fp.close()
-        else :
-            fp = open ('/home/student/python_specialKurs/testing.txt','a')
-            fp.write(name + '\n')
-            fp.close()          
+                try :
+                    nameuse = str(input("Введите одно из этих похожих имен, или новое имя"))
+                except TypeError:
+                    print("неккоректный ввод")
+                fp.close()
+                fp = open ('/home/student/python_specialKurs/testing.txt','w')
+                fp.write(nameuse + '\n')
+                fp.close()
+                break
+            else :               
+                print("вы ввели удачное имя")
+                fp.close()
+                fp = open ('/home/student/python_specialKurs/testing.txt','w')
+                fp.write(name + '\n')
+                fp.close()         
     try :
-        name = str(input("Введите имя"))
+        name = input("Введите имя")      
     except TypeError:
         print("неккоректный ввод")
   
