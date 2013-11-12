@@ -1,9 +1,11 @@
 import random
 import os
+import sys
 
 
 def main():
     def watch(l, name, namefile):
+        flag = 1
         if not l:
             placein(name, namefile)
         else:
@@ -17,16 +19,11 @@ def main():
                     print("Возможные варианты регистрации: ", name1,
                           '\n', name2, '\n', name3, '\n', name4)
                     nameuse = input("Введите одно из этих похожих имен")
-                    watchout(l, nameuse, namefile)
-
-    def watchout(l, nameuse, namefile):
-        for line in l:
-            if (nameuse == line.rstrip()):
-                print("Вы повторили неправильный ввод, попробуйте еще раз")
-                name = input("Введите имя")
-                watchout(l, name, namefile)
+                    flag = 0
+            if(flag == 0):
+                watch(l, nameuse, namefile)
             else:
-                placein(nameuse, namefile)
+                placein(name, namefile)
 
     def placein(nameuse, namefile):
         print("вы ввели удачное имя")
@@ -36,11 +33,14 @@ def main():
         fp.close()
 
     def register(name):
-        namefile = input("Введите имя файла")
+        if (len(sys.argv) > 1):
+            namefile = sys.argv[1]
+        else:
+            namefile = input("Введите имя файла")
         if os.path.exists('/home/student/python_specialKurs/' + namefile):
             fp = open('/home/student/python_specialKurs/' + namefile)
             l = [line.strip() for line in fp]
-            else:
+        else:
                 fp = open('/home/student/python_specialKurs/' + namefile,
                           'x')
                 l = []
